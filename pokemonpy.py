@@ -392,7 +392,8 @@ def get_enemy():
 
     battle_count += 1
 
-    if battle_count == 4:
+    if battle_count == 2:
+        winsound.PlaySound("sounds/Ege_theme.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
         return "Champion Ege", ege_team
 
     name = random.choice(trainer_names)
@@ -550,7 +551,9 @@ while battle_count < 4:
     enemy_name, enemyteam = get_enemy()
     print(f"\n Your opponent: {enemy_name}")
     won=team_battle(playerteam, enemyteam)
+
+    if won:
+        typewriter("CONGRATULATIONS! You defated Champion Ege and won the tournament...",0.07)
     if not won:
         typewriter("Game Over!",0.5)
         break
-typewriter("CONGRATULATIONS! You defated Champion Ege and won the tournament...",0.07)
