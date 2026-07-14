@@ -1,15 +1,19 @@
-# Pokemon Python Edition
+# 🎮 Pokémon Python Edition
 
-A text-based Pokémon game developed in Python.
+A text-based Pokémon tournament game developed in Python.
+
+## About
+
+This is a personal learning project created to improve my Python programming skills by building a Pokémon-inspired tournament game from scratch.
 
 ## Features
 
-- Turn-based Pokémon battles
-- Different Pokémon with unique stats
-- Sound effects
-- Typewriter text animation
-- HP system
-- Random enemy encounters
+- ⚔️ Turn-based Pokémon battles
+- ❤️ HP and damage system
+- 🤖 AI-controlled opponents
+- ⌨️ Typewriter text animation
+- 🎵 Sound assets *(implementation in progress)*
+- 🐍 Developed with Python
 
 ## Technologies
 
@@ -25,7 +29,7 @@ Clone the repository:
 git clone https://github.com/MertdeSouza/Pokemon-Python-Edition.git
 ```
 
-Run:
+Run the game:
 
 ```bash
 python pokemonpy.py
@@ -33,14 +37,17 @@ python pokemonpy.py
 
 ## Roadmap
 
-- [ ] Save system
-- [ ] Inventory
-- [ ] Pokémon Center
-- [ ] Wild Pokémon
-- [ ] Gym Leaders
-- [ ] Better battle animations
-- [ ] More Pokémon
+- [ ] Implement sound effects
+- [ ] Add more Pokémon
+- [ ] Improve battle mechanics
+- [ ] Add tournament progression
+- [ ] Improve the user interface
+- [ ] Refactor the project into multiple modules
+
+## Project Status
+
+🚧 This project is currently under active development.
 
 ## Author
 
-Created by **M. Mert A.**.
+Created by **Mert**.
