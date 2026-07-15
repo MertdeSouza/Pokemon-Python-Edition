@@ -4,14 +4,24 @@ import random
 import json
 import winsound
 
+color_red = "\033[31m"
+color_green = "\033[32m"
+color_yellow = "\033[33m"
+color_blue = "\033[34m"
+color_purple = "\033[35m" 
+color_cyan = "\033[36m" 
+color_white = "\033[37m"
+color_reset = "\033[0m"
 
+def typewriter(text, delay=0.05, color=color_reset):
+    sys.stdout.write(color)
 
-def typewriter(text, delay=0.05):
     for char in text:
         sys.stdout.write(char)
         sys.stdout.flush()
         time.sleep(delay)
-    print() 
+
+    print(color_reset)
 
 class Pokemon:
 
@@ -45,7 +55,6 @@ class Pokemon:
         print(f"{enemy.name} remaining HP: {enemy.hp}\n")
 
 
-    
 
 
 
@@ -318,19 +327,19 @@ trainer_names = [
 
 playerteam = []
 
-print("  _____   ____  _  ________ __  __  ____  _   _                       ")
-print(" |  __ \ / __ \| |/ /  ____|  \/  |/ __ \| \ | |                      ")
-print(" | |__) | |  | | ' /| |__  | \  / | |  | |  \| |                      ")
-print(" |  ___/| |  | |  < |  __| | |\/| | |  | | . ` |                      ")
-print(" | |    | |__| | . \| |____| |  | | |__| | |\  |                      ")
-print(" |_|     \____/|_|\_\______|_|  |_|\____/|_| \_|_ _ _   _             ")
-print("              | | | |                          | (_) | (_)            ")
-print("   _ __  _   _| |_| |__   ___  _ __     ___  __| |_| |_ _  ___  _ __  ")
-print("  | '_ \| | | | __| '_ \ / _ \| '_ \   / _ \/ _` | | __| |/ _ \| '_ \ ")
-print("  | |_) | |_| | |_| | | | (_) | | | | |  __/ (_| | | |_| | (_) | | | |")
-print("  | .__/ \__, |\__|_| |_|\___/|_| |_|  \___|\__,_|_|\__|_|\___/|_| |_|")
-print("  | |     __/ |                                                       ")
-print("  |_|    |___/                                                        ")
+print(color_red,"  _____   ____  _  ________ __  __  ____  _   _                       ",color_reset)
+print(color_red," |  __ \ / __ \| |/ /  ____|  \/  |/ __ \| \ | |                      ",color_reset)
+print(color_red," | |__) | |  | | ' /| |__  | \  / | |  | |  \| |                      ",color_reset)
+print(color_red," |  ___/| |  | |  < |  __| | |\/| | |  | | . ` |                      ",color_reset)
+print(color_red," | |    | |__| | . \| |____| |  | | |__| | |\  |                      ",color_reset)
+print(color_red," |_|     \____/|_|\_\______|_|  |_|\____/|_| \_|_ _ _   _             ",color_reset)
+print(color_green,"              | | | |                          | (_) | (_)            ",color_reset)
+print(color_green,"   _ __  _   _| |_| |__   ___  _ __     ___  __| |_| |_ _  ___  _ __  ",color_reset)
+print(color_green,"  | '_ \| | | | __| '_ \ / _ \| '_ \   / _ \/ _` | | __| |/ _ \| '_ \ ",color_reset)
+print(color_green,"  | |_) | |_| | |_| | | | (_) | | | | |  __/ (_| | | |_| | (_) | | | |",color_reset)
+print(color_green,"  | .__/ \__, |\__|_| |_|\___/|_| |_|  \___|\__,_|_|\__|_|\___/|_| |_|",color_reset)
+print(color_green,"  | |     __/ |                                                       ",color_reset)
+print(color_green,"  |_|    |___/                                                        ",color_reset)
 print("                                                                      ")
  
 typewriter("Welcome to our Pokemon World ",0.07)
@@ -339,7 +348,7 @@ typewriter("Nice to meet you "+ name +" My name is Proffesor X",0.07)
 typewriter("In this world you need to select 4 pokemon for your team ",0.07)
 typewriter("You are in a tournament and try to win against Last Champion Ege",0.07)
 typewriter("You can choose this 40 pokemons for your team")
-  
+time.sleep(1)
  
  
 for i in Pokemon_data:
@@ -358,9 +367,9 @@ while len(playerteam) < 4:
 
     selected = Pokemon_data[choice].clone()
 
-    if selected in playerteam:
-        print("You already chose this Pokemon!")
-        continue
+    if any(p.name == selected.name for p in playerteam):
+     print("You already chose this Pokemon!")
+     continue
 
     playerteam.append(selected)
 
@@ -392,8 +401,10 @@ def get_enemy():
 
     battle_count += 1
 
-    if battle_count == 2:
+    if battle_count == 4:
         winsound.PlaySound("sounds/Ege_theme.wav",winsound.SND_FILENAME | winsound.SND_ASYNC)
+        typewriter("I'm impressed you made it this far. Congratulations... but this is where your journey ends.",0.07)
+        time.sleep(1)
         return "Champion Ege", ege_team
 
     name = random.choice(trainer_names)
@@ -428,8 +439,8 @@ def team_battle(playerteam, enemy_team):
         print("TURN", turn)
         print("===================")
 
-        typewriter(f"\nYOU: {p1.name} HP: {p1.hp}",0.03)
-        typewriter(f"ENEMY: {p2.name} HP: {p2.hp}",0.03)
+        typewriter(f"\nYOU: {p1.name} HP: {p1.hp}",0.03,color_blue)
+        typewriter(f"ENEMY: {p2.name} HP: {p2.hp}",0.03,color_red)
 
         print("\nWhat do you want to do?")
         print("1 - Attack")
@@ -472,7 +483,7 @@ def team_battle(playerteam, enemy_team):
         # ================= SWITCH =================
         elif action == 2:
 
-            print("\nChoose Pokemon to switch:")
+            print(color_yellow + "\nChoose Pokemon to switch:" + color_reset)
 
             valid_indexes = []
 
@@ -487,10 +498,10 @@ def team_battle(playerteam, enemy_team):
                 p1 = playerteam[switch]
                 print(f"\nGo {p1.name}!")
             else:
-                print("Invalid switch!")
+                print(color_red + "Invalid switch!" + color_reset)
 
         else:
-            print("Invalid action!")
+            print(color_red + "Invalid action!" + color_reset)
 
         # ================= ENEMY DEAD =================
         if p2.hp <= 0:
@@ -504,7 +515,7 @@ def team_battle(playerteam, enemy_team):
                 e_index += 1
 
             if e_index >= len(enemy_team):
-                print("\n YOU WIN THE BATTLE!")
+                print(color_green + "\n YOU WIN THE BATTLE!" + color_reset)
                 return True
 
             p2 = enemy_team[e_index]
@@ -538,7 +549,7 @@ def team_battle(playerteam, enemy_team):
                 p_index += 1
 
             if p_index >= len(playerteam):
-                print("\n YOU LOST THE BATTLE!")
+                print(color_red + "\n YOU LOST THE BATTLE!" + color_reset)
                 return False
 
             p1 = playerteam[p_index]
@@ -552,8 +563,11 @@ while battle_count < 4:
     print(f"\n Your opponent: {enemy_name}")
     won=team_battle(playerteam, enemyteam)
 
-    if won:
-        typewriter("CONGRATULATIONS! You defated Champion Ege and won the tournament...",0.07)
+    if enemy_name == "Champion Ege" and won:
+     typewriter("Congratulations! You are the new Champion!", 0.07)
+     break
+
     if not won:
         typewriter("Game Over!",0.5)
         break
+
