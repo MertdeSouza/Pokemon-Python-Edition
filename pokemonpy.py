@@ -62,7 +62,7 @@ class Pokemon:
 # data aralığı
 
 Pokemon_data = {
-    1: Pokemon("Charizard", 10000, 3000, 10, "Fire"),
+    1: Pokemon("Charizard", 100, 30, 10, "Fire"),
     2: Pokemon("Arcanine", 110, 32, 12, "Fire"),
     3: Pokemon("Infernape", 95, 34, 9, "Fire"),
     4: Pokemon("Delphox", 90, 28, 10, "Fire"),
@@ -351,8 +351,8 @@ typewriter("You can choose this 40 pokemons for your team")
 time.sleep(1)
  
  
-for i in Pokemon_data:
-    print(i, "-", Pokemon_data[i].name)
+for i, p in Pokemon_data.items():
+    print(f"{i} - {p.name} | HP:{p.hp} | ATK:{p.attack} | DEF:{p.defense} | TYPE:{p.type}")
     
 while len(playerteam) < 4:
     try:
@@ -474,8 +474,15 @@ def team_battle(playerteam, enemy_team):
 
                 p2.hp = max(0, p2.hp - damage)
 
+
                 print(f"\n{p1.name} used {move_name}!")
                 print(f"It dealt {damage} damage!")
+                
+                if multiplier == 2:
+                 print("It's super effective!")
+
+                elif multiplier == 0.5:
+                 print("It's not very effective...")
 
             else:
                 print("Invalid move! turn wasted ")
@@ -494,14 +501,13 @@ def team_battle(playerteam, enemy_team):
 
             switch = int(input("> ")) - 1
 
-            if switch in valid_indexes:
+            if switch not in valid_indexes:
+                print(color_red + "Invalid switch!" + color_reset)
+            elif playerteam[switch] == p1:
+                print(color_yellow + "This Pokemon is already battling!" + color_reset)    
+            else:
                 p1 = playerteam[switch]
                 print(f"\nGo {p1.name}!")
-            else:
-                print(color_red + "Invalid switch!" + color_reset)
-
-        else:
-            print(color_red + "Invalid action!" + color_reset)
 
         # ================= ENEMY DEAD =================
         if p2.hp <= 0:
@@ -532,10 +538,17 @@ def team_battle(playerteam, enemy_team):
             enemy_damage = (p2.attack + enemy_bonus - p1.defense) * enemy_multiplier
             enemy_damage = max(1, int(enemy_damage))
 
-            p1.hp = max(0, p1.hp - enemy_damage)
+
 
             print(f"\nEnemy {p2.name} used {enemy_move_name}!")
             print(f"It dealt {enemy_damage} damage!")
+            p1.hp = max(0, p1.hp - enemy_damage)
+
+            if enemy_multiplier == 2:
+             print("It's super effective!")
+
+            elif enemy_multiplier == 0.5:
+                print("It's not very effective...")
 
         # ================= PLAYER DEAD =================
         if p1.hp <= 0:
@@ -559,6 +572,18 @@ def team_battle(playerteam, enemy_team):
 
 
 while battle_count < 4:
+    print("\n===== TOURNAMENT =====")
+
+    for i in range(1, 5):
+     if i <= battle_count:
+        print(f"Round {i}: ✓") 
+     elif i == 4:
+        print("Champion Battle")
+     else:
+        print(f"Round {i}")
+
+    print("======================")
+
     enemy_name, enemyteam = get_enemy()
     print(f"\n Your opponent: {enemy_name}")
     won=team_battle(playerteam, enemyteam)
@@ -570,4 +595,3 @@ while battle_count < 4:
     if not won:
         typewriter("Game Over!",0.5)
         break
-
