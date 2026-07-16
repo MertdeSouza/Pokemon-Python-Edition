@@ -11,6 +11,8 @@ color_blue = "\033[34m"
 color_purple = "\033[35m" 
 color_cyan = "\033[36m" 
 color_white = "\033[37m"
+color_orange = "\033[38;5;208m"
+color_light_blue = "\033[38;5;153m"
 color_reset = "\033[0m"
 
 def typewriter(text, delay=0.05, color=color_reset):
@@ -430,8 +432,8 @@ def team_battle(playerteam, enemy_team):
     p2 = enemy_team[e_index]
 
     typewriter(f"\n Battle starts!",0.03)
-    typewriter(f"You send out {p1.name}!",0.03)
-    typewriter(f"Enemy sends out {p2.name}!\n",0.03)
+    typewriter(f"You send out {p1.name}!",0.03,color_blue)
+    typewriter(f"Enemy sends out {p2.name}!\n",0.03,color_red)
 
     while True:
         #team_battle(playerteam, enemyteam)
@@ -479,10 +481,10 @@ def team_battle(playerteam, enemy_team):
                 print(f"It dealt {damage} damage!")
                 
                 if multiplier == 2:
-                 print("It's super effective!")
+                 print(color_light_blue + "It's super effective!" + color_reset)
 
                 elif multiplier == 0.5:
-                 print("It's not very effective...")
+                 print(color_orange + "It's not very effective..." + color_reset)
 
             else:
                 print("Invalid move! turn wasted ")
@@ -545,29 +547,37 @@ def team_battle(playerteam, enemy_team):
             p1.hp = max(0, p1.hp - enemy_damage)
 
             if enemy_multiplier == 2:
-             print("It's super effective!")
+             print(color_light_blue + "It's super effective!" + color_reset)
 
             elif enemy_multiplier == 0.5:
-                print("It's not very effective...")
+                print(color_orange + "It's not very effective..." + color_reset)
 
         # ================= PLAYER DEAD =================
         if p1.hp <= 0:
 
             print(f"\n{p1.name} fainted!")
 
-            p_index += 1
+            alive = [p for p in playerteam if p.hp > 0]
 
-            #  SKIP DEAD PLAYER POKEMON
-            while p_index < len(playerteam) and playerteam[p_index].hp <= 0:
-                p_index += 1
-
-            if p_index >= len(playerteam):
+            if not alive:
                 print(color_red + "\n YOU LOST THE BATTLE!" + color_reset)
                 return False
 
-            p1 = playerteam[p_index]
-            print(f"\nGo {p1.name}!")
+            print("\nChoose your next Pokemon:")
 
+            while True:
+                for i, p in enumerate(playerteam):
+                    if p.hp > 0:
+                        print(f"{i+1} - {p.name} (HP: {p.hp})")
+
+                choice = int(input("> ")) - 1
+
+                if 0 <= choice < len(playerteam) and playerteam[choice].hp > 0:
+                    p1 = playerteam[choice]
+                    print(f"\nGo {p1.name}!")
+                    break
+
+                print("Invalid choice!")
         turn += 1
 
 
