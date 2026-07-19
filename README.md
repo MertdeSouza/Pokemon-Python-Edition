@@ -74,7 +74,7 @@ python main.py
 
 ## Screenshots
 
-*Gameplay screenshots will be added here.*
+<img width="928" height="318" alt="image" src="https://github.com/user-attachments/assets/3837cbb3-3942-48a1-92d1-d419651ec1b1" />
 
 ---
 
