@@ -1,25 +1,44 @@
-# 🎮 Pokémon Python Edition
+# Pokémon Python Edition
 
-A text-based Pokémon tournament game developed in Python.
+A terminal-based Pokémon tournament game written in Python, where you build your own team, battle trainers, and defeat the Champion to become the ultimate Pokémon Master.
 
-## About
-
-This is a personal learning project created to improve my Python programming skills by building a Pokémon-inspired tournament game from scratch.
+---
 
 ## Features
 
-- ⚔️ Turn-based Pokémon battles
-- ❤️ HP and damage system
-- 🤖 AI-controlled opponents
-- ⌨️ Typewriter text animation
-- 🎵 Sound assets *(implementation in progress)*
-- 🐍 Developed with Python
+-  Terminal-based Pokémon battle system
+-  Turn-based combat
+-  Build your own team of 4 Pokémon
+-  40 unique Pokémon
+-  Multiple Pokémon types
+-  Type effectiveness system
+-  Unique moves for every type
+-  Random trainer battles
+-  Final Champion battle
+-  HP & damage system
+-  Pokémon switching during battles
 
-## Technologies
+---
 
-- Python 3
-- Git
-- GitHub
+## Project Structure
+
+```
+Pokemon-Python-Edition/
+│
+├── main.py
+├── battle.py
+├── pokemon.py
+├── data.py
+├── pokemon_types.py
+├── trainers.py
+├── utils.py
+│
+├── sounds/
+│
+└── README.md
+```
+
+---
 
 ## Installation
 
@@ -29,25 +48,52 @@ Clone the repository:
 git clone https://github.com/MertdeSouza/Pokemon-Python-Edition.git
 ```
 
+Go into the project folder:
+
+```bash
+cd Pokemon-Python-Edition
+```
+
 Run the game:
 
 ```bash
-python pokemonpy.py
+python main.py
 ```
 
-## Roadmap
+---
 
-- [ ] Implement sound effects
-- [ ] Add more Pokémon
-- [ ] Improve battle mechanics
-- [ ] Add tournament progression
-- [ ] Improve the user interface
-- [ ] Refactor the project into multiple modules
+## How to Play
 
-## Project Status
+1. Choose your team of four Pokémon.
+2. Battle random trainers.
+3. Defeat every opponent.
+4. Beat Champion Ege.
+5. Become the new Champion.
 
-🚧 This project is currently under active development.
+---
+
+## Screenshots
+
+*Gameplay screenshots will be added here.*
+
+---
+
+## Built With
+
+- Python 3
+- Object-Oriented Programming (OOP)
+- Modular Project Structure
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
 
 ## Author
 
-Created by **Mert**.
+Created by **Mert**
+
+If you enjoyed this project, consider leaving a ⭐ on the repository!
