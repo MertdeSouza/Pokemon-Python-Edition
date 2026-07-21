@@ -33,8 +33,10 @@ typewriter("You can choose this 40 pokemons for your team")
 time.sleep(1)
  
  
+print("\nAvailable Pokemon:\n")
+
 for i, p in Pokemon_data.items():
-    print(f"{i} - {p.name} | HP:{p.hp} | ATK:{p.attack} | DEF:{p.defense} | TYPE:{p.type}")
+    print(f"{i:02d} - {p.name:<12} {p.type:<9} HP:{p.hp:<3} ATK:{p.attack:<2} DEF:{p.defense:<2}")
     
 while len(playerteam) < 4:
     try:

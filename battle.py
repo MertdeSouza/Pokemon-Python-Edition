@@ -3,7 +3,20 @@ import random
 from utils import *
 from pokemon_types import type_chart, type_attacks
 
+def hp_bar(current, maximum, length=20):
+    filled = int((current / maximum) * length)
+    empty = length - filled
 
+    percent = current / maximum
+
+    if percent > 0.6:
+        color = color_green
+    elif percent > 0.3:
+        color = color_yellow
+    else:
+        color = color_red
+
+    return color + "█" * filled + "░" * empty + color_reset
 
 def reset_team(team):
     for p in team:
@@ -36,8 +49,11 @@ def team_battle(playerteam, enemy_team):
         print("TURN", turn)
         print("===================")
 
-        typewriter(f"\nYOU: {p1.name} HP: {p1.hp}",0.03,color_blue)
-        typewriter(f"ENEMY: {p2.name} HP: {p2.hp}",0.03,color_red)
+        print(color_blue + f"\nYOU: {p1.name}" + color_reset)
+        print(f"{hp_bar(p1.hp, p1.max_hp)} {p1.hp}/{p1.max_hp}")
+
+        print(color_red + f"\nENEMY: {p2.name}" + color_reset)
+        print(f"{hp_bar(p2.hp, p2.max_hp)} {p2.hp}/{p2.max_hp}")
 
         print("\nWhat do you want to do?")
         print("1 - Attack")
@@ -49,7 +65,7 @@ def team_battle(playerteam, enemy_team):
             print("Please enter a number!")
             continue
 
-        # ================= ATTACK =================
+# ================= ATTACK =================
         if action == 1:
 
             moves = type_attacks[p1.type]
@@ -58,34 +74,38 @@ def team_battle(playerteam, enemy_team):
             for i, move in enumerate(moves):
                 print(f"{i+1} - {move[0]} (+{move[1]})")
 
-            choice = int(input("> ")) - 1
+            while True:
+                try:
+                    choice = int(input("> ")) - 1
+                except ValueError:
+                    print("Please enter a number!")
+                    continue
 
-            if 0 <= choice < len(moves):
+                if 0 <= choice < len(moves):
+                    break
 
-                move_name, bonus = moves[choice]
+                print("Invalid move!")
 
-                multiplier = type_chart.get(p1.type, {}).get(p2.type, 1)
+            move_name, bonus = moves[choice]
 
-                damage = (p1.attack + bonus - p2.defense) * multiplier
-                damage = max(1, int(damage))
+            multiplier = type_chart.get(p1.type, {}).get(p2.type, 1)
 
-                p2.hp = max(0, p2.hp - damage)
+            damage = (p1.attack + bonus - p2.defense) * multiplier
+            damage = max(1, int(damage))
 
+            p2.hp = max(0, p2.hp - damage)
 
-                print(f"\n{p1.name} used {move_name}!")
-                print(f"It dealt {damage} damage!")
-                
-                if multiplier == 2:
-                 print(color_light_blue + "It's super effective!" + color_reset)
+            typewriter(f"\n{p1.name} used {move_name}!", 0.03, color_blue)
+            typewriter(f"It dealt {damage} damage!", 0.03, color_blue)
 
-                elif multiplier == 0.5:
-                 print(color_orange + "It's not very effective..." + color_reset)
-
-            else:
-                print("Invalid move! turn wasted ")
-
+            if multiplier == 2:
+                typewriter(color_light_blue + "It's super effective!" + color_reset, 0.03)
+            elif multiplier == 0.5:
+                typewriter(color_orange + "It's not very effective..." + color_reset, 0.03)
         # ================= SWITCH =================
         elif action == 2:
+
+            cancelled = False
 
             print(color_yellow + "\nChoose Pokemon to switch:" + color_reset)
 
@@ -96,16 +116,36 @@ def team_battle(playerteam, enemy_team):
                     valid_indexes.append(i)
                     print(f"{i+1} - {p.name} (HP: {p.hp})")
 
-            switch = int(input("> ")) - 1
+            print("0 - Cancel")
 
-            if switch not in valid_indexes:
-                print(color_red + "Invalid switch!" + color_reset)
-            elif playerteam[switch] == p1:
-                print(color_yellow + "This Pokemon is already battling!" + color_reset)    
-            else:
+            while True:
+                try:
+                    switch = int(input("> "))
+                except ValueError:
+                    print("Please enter a number!")
+                    continue
+
+                if switch == 0:
+                    cancelled = True
+                    print("Cancelled.")
+                    break
+
+                switch -= 1
+
+                if switch not in valid_indexes:
+                    print("Invalid switch!")
+                    continue
+
+                if playerteam[switch] == p1:
+                    print("This Pokemon is already battling!")
+                    continue
+
                 p1 = playerteam[switch]
                 print(f"\nGo {p1.name}!")
+                break
 
+            if cancelled:
+                continue
         # ================= ENEMY DEAD =================
         if p2.hp <= 0:
 
@@ -123,7 +163,9 @@ def team_battle(playerteam, enemy_team):
 
             p2 = enemy_team[e_index]
             print(f"\nEnemy sends out {p2.name}!")
-
+            
+            turn += 1
+            continue
         # ================= ENEMY ATTACK =================
         if p2.hp > 0:
 
@@ -137,8 +179,8 @@ def team_battle(playerteam, enemy_team):
 
 
 
-            print(f"\nEnemy {p2.name} used {enemy_move_name}!")
-            print(f"It dealt {enemy_damage} damage!")
+            typewriter(f"\nEnemy {p2.name} used {enemy_move_name}!", 0.03, color_red)
+            typewriter(f"It dealt {enemy_damage} damage!", 0.03, color_red)
             p1.hp = max(0, p1.hp - enemy_damage)
 
             if enemy_multiplier == 2:
@@ -165,11 +207,15 @@ def team_battle(playerteam, enemy_team):
                     if p.hp > 0:
                         print(f"{i+1} - {p.name} (HP: {p.hp})")
 
-                choice = int(input("> ")) - 1
+                try:
+                    choice = int(input("> ")) - 1
+                except ValueError:
+                    print("Please enter a number!")
+                    continue
 
                 if 0 <= choice < len(playerteam) and playerteam[choice].hp > 0:
                     p1 = playerteam[choice]
-                    print(f"\nGo {p1.name}!")
+                    print(color_blue,f"\nGo {p1.name}!",color_reset)
                     break
 
                 print("Invalid choice!")
